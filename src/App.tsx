@@ -6,12 +6,12 @@ import WarningBanner from "./components/WarningBanner";
 import { calculateTotalDuration } from "./utils/other";
 
 const App: React.FC = () => {
-    const [audioList, setAudioList] = useState<AudioMetadata[]>([]);
-    const [selectedAudio, setSelectedAudio] = useState<string | null>(null);
+    const [audioList] = useState<AudioMetadata[]>([]);
+    const [selectedAudio] = useState<string | null>(null);
 
-    const handleUpload = (files: FileList) => {
-        // Upload logic and update audioList state
-    };
+    // const handleUpload = (files: FileList) => {
+    //     // Upload logic and update audioList state
+    // };
 
     // const handleAudioClick = (audioUrl: string) => {
     //     setSelectedAudio(audioUrl);
@@ -20,7 +20,7 @@ const App: React.FC = () => {
     return (
         <div className="container p-4 mx-auto">
             <h1 className="mb-4 text-2xl font-bold">Audio Dashboard</h1>
-            <UploadForm onUpload={handleUpload} />
+            <UploadForm />
 
             {/* <audio controls>
                 <source src={signedAudioURL} type="audio/mpeg" />
