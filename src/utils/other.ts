@@ -1,12 +1,3 @@
-import { AudioMetadata } from "../components/AudioTable";
-
-export function calculateTotalDuration(audioList: AudioMetadata[]): number {
-    return audioList.reduce(
-        (totalDuration, audio) => totalDuration + audio.duration,
-        0
-    );
-}
-
 // function to get the duration of the audio file
 export const getDuration = (file: File): Promise<number> => {
     return new Promise((resolve, reject) => {
@@ -43,4 +34,19 @@ export function secondsToMMSS(seconds: number) {
     const formattedMinutes = String(minutes).padStart(2, "0");
     const formattedSeconds = String(remainingSeconds).padStart(2, "0");
     return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+// convert Sat, 26 Aug 2023 04:45:02 GMT to 26/08/2023 04:45
+export function convertDate(date: string) {
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+    const hour = d.getHours();
+    const min = d.getMinutes();
+    // if hour is less than 10, add 0 before it
+    const formattedHour = hour < 10 ? `0${hour}` : hour;
+    // if min is less than 10, add 0 before it
+    const formattedMin = min < 10 ? `0${min}` : min;
+    return `${day}/${month}/${year} ${formattedHour}:${formattedMin}`;
 }

@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "axios": "^1.4.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-spinners": "^0.13.8",
+    "tailwind-merge": "^1.14.0",
+    "tw-merge": "^0.0.1-alpha.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

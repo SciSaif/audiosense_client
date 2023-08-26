@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import {
     bytesToReadableFormat,
-    // getDuration,
+    getDuration,
     secondsToMMSS,
 } from "../utils/other";
+import { ScaleLoader } from "react-spinners";
 
 interface FileWithMetadata {
     file: File;
@@ -16,10 +17,16 @@ interface FileWithMetadata {
     };
 }
 
-const UploadForm: React.FC = () => {
+interface Props {
+    fetchAudioFiles: () => void;
+}
+
+const UploadForm = ({ fetchAudioFiles }: Props) => {
     const [selectedFiles, setSelectedFiles] = useState<
         FileWithMetadata[] | null
     >(null);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -28,8 +35,8 @@ const UploadForm: React.FC = () => {
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                // const duration = await getDuration(file);
-                const duration = 0;
+                const duration = await getDuration(file);
+                // const duration = 0;
                 const fileName = file.name;
                 const fileSize = file.size;
                 const fileType = file.type;
@@ -65,6 +72,7 @@ const UploadForm: React.FC = () => {
             );
         });
         try {
+            setLoading(true);
             const res = await axios.post(
                 `${import.meta.env.VITE_REACT_APP_API_URL}/upload`,
                 formData,
@@ -77,35 +85,77 @@ const UploadForm: React.FC = () => {
 
             console.log(res.data.uploaded_urls);
             console.log("Files uploaded successfully");
+            fetchAudioFiles();
+            setSelectedFiles(null);
+            setLoading(false);
         } catch (error) {
             console.error("Error uploading files:", error);
+            setLoading(false);
         }
     };
 
     return (
-        <div>
-            <input
-                type="file"
-                // accept="audio/*"
-                multiple
-                onChange={handleFileChange}
-            />
+        <div className="flex flex-col items-center justify-center w-full mx-auto">
+            <div className="flex items-center justify-center w-full bg-grey-lighter -rotate-1">
+                <label className="flex flex-col items-center w-full px-4 py-6 tracking-wide text-white uppercase border rounded-lg shadow-lg cursor-pointer bg-white/10 border-blue hover:bg-blue hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-white/20">
+                    <svg
+                        className="w-8 h-8"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span className="mt-2 text-base leading-normal">
+                        Upload audio files
+                    </span>
+                    <input
+                        type="file"
+                        className="hidden"
+                        accept="audio/*"
+                        multiple
+                        onChange={handleFileChange}
+                    />
+                </label>
+            </div>
             {selectedFiles && (
-                <div>
-                    <h3>Selected Files:</h3>
-                    <ul>
+                <div className="w-full mt-5">
+                    <hr className="w-full h-[1px] my-2 bg-white/50 -rotate-1" />
+                    <h3 className="mx-auto font-semibold text white">
+                        Selected Files:
+                    </h3>
+                    <ul className="flex flex-col divide-y divide-slate-50/50">
                         {Array.from(selectedFiles).map((file, index) => (
-                            <li key={index}>
-                                {file.metaData.fileName} -{" "}
-                                {file.metaData.fileType} -{" "}
-                                {bytesToReadableFormat(file.metaData.fileSize)}{" "}
-                                - {secondsToMMSS(file.metaData.duration)}
+                            <li
+                                key={index}
+                                className="flex flex-row justify-between w-full pb-2"
+                            >
+                                <span>-{" " + file.metaData.fileName} </span>
+                                <span>
+                                    <span className="opacity-70">
+                                        {file.metaData.fileType}
+                                    </span>
+                                    {" - "}
+                                    {bytesToReadableFormat(
+                                        file.metaData.fileSize
+                                    )}{" "}
+                                    - {secondsToMMSS(file.metaData.duration)}
+                                </span>
                             </li>
                         ))}
                     </ul>
                 </div>
             )}
-            <button onClick={handleUpload}>Upload</button>
+            <button
+                onClick={handleUpload}
+                className="px-16 py-4 my-5 transition-all duration-150 border border-red-500 rounded-lg hover:border-white hover:bg-red-500 hover:text-white hover:scale-105"
+            >
+                {!loading ? (
+                    <span>Upload</span>
+                ) : (
+                    <ScaleLoader color={"#fff"} loading={loading} height={30} />
+                )}
+            </button>
         </div>
     );
 };
