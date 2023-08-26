@@ -1,3 +1,5 @@
+import { FileWithMetadata } from "../components/UploadForm";
+
 // function to get the duration of the audio file
 export const getDuration = (file: File): Promise<number> => {
     return new Promise((resolve, reject) => {
@@ -50,3 +52,13 @@ export function convertDate(date: string) {
     const formattedMin = min < 10 ? `0${min}` : min;
     return `${day}/${month}/${year} ${formattedHour}:${formattedMin}`;
 }
+
+// function to calculate total duration of all files
+export const calculateTotalDuration = (files: FileWithMetadata[]) => {
+    let totalDuration = 0;
+    files.forEach((file) => {
+        totalDuration += file.metaData.duration;
+    });
+
+    return totalDuration;
+};

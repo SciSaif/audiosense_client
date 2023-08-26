@@ -32,7 +32,7 @@ const AudioTable = ({ audioFiles }: Props) => {
                     <th>Upload Date</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody className="">
                 {audioFiles.map((audio) => (
                     <tr key={audio.id} className="text-center">
                         <td>

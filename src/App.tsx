@@ -76,7 +76,9 @@ const App = () => {
                 <source src={signedAudioURL} type="audio/mpeg" />
                 Your browser does not support the audio element.
             </audio> */}
-                <AudioTable audioFiles={audioFiles} />
+                {audioFiles.length > 0 && (
+                    <AudioTable audioFiles={audioFiles} />
+                )}
             </div>
 
             <div
@@ -97,6 +99,28 @@ const App = () => {
             </div>
             <hr className="w-full h-1 mb-2 bg-red-500 -rotate-1" />
             <hr className="w-full h-1 bg-red-500 -rotate-1" />
+            <div className="flex flex-row justify-between w-full mt-2 opacity-75 -rotate-1">
+                <div>
+                    <span>Created by: </span> <span>Saifullah Rahman</span>
+                </div>
+                <div>
+                    <a
+                        className="underline hover:underline-offset-4 hover:text-blue-500"
+                        href="https://github.com/SciSaif/audiosense_client"
+                    >
+                        {" "}
+                        Github{" "}
+                    </a>{" "}
+                    {" | "}{" "}
+                    <a
+                        className="underline hover:underline-offset-4 hover:text-blue-500"
+                        href="https://www.linkedin.com/in/scisaif/"
+                    >
+                        {" "}
+                        LinkedIn{" "}
+                    </a>
+                </div>
+            </div>
         </div>
     );
 };

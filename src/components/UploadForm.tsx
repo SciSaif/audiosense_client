@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import {
     bytesToReadableFormat,
+    calculateTotalDuration,
     getDuration,
     secondsToMMSS,
 } from "../utils/other";
 import { ScaleLoader } from "react-spinners";
 
-interface FileWithMetadata {
+export interface FileWithMetadata {
     file: File;
     metaData: {
         duration: number;
@@ -27,8 +28,10 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
     >(null);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [warning, setWarning] = useState<string | null>(null);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWarning(null);
         if (e.target.files) {
             const files: FileList = e.target.files;
             const filesWithMetadata: FileWithMetadata[] = [];
@@ -59,6 +62,12 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
     const handleUpload = async () => {
         if (!selectedFiles) {
             alert("Please select files to upload.");
+            return;
+        }
+
+        // If total duration is more than 10 minutes, don't upload
+        if (calculateTotalDuration(selectedFiles) > 600) {
+            setWarning("Total duration of files should not exceed 10 minutes.");
             return;
         }
 
@@ -146,6 +155,26 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
                     </ul>
                 </div>
             )}
+            {warning && (
+                <div className="w-full mt-5 bg-yellow-300 -rotate-1">
+                    <hr className="w-full h-[2px]  bg-orange-500/50 " />
+
+                    <p className="py-2 text-center text-black">
+                        {warning + " "}{" "}
+                        <span
+                            onClick={() => {
+                                setWarning(null);
+                                setSelectedFiles(null);
+                            }}
+                            className="text-blue-500 underline cursor-pointer hover:text-blue-600"
+                        >
+                            reset
+                        </span>
+                    </p>
+                    <hr className="w-full h-[2px]  bg-orange-500/50 " />
+                </div>
+            )}
+
             <button
                 onClick={handleUpload}
                 className="px-16 py-4 my-5 transition-all duration-150 border border-red-500 rounded-lg hover:border-white hover:bg-red-500 hover:text-white hover:scale-105"
