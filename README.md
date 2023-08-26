@@ -1,27 +1,48 @@
-# React + TypeScript + Vite
+# AudioSense Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the AudioSense client repository! This is the frontend part of the AudioSense web application, which provides a user interface for uploading, managing, and accessing audio files.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Check out the live demo of the AudioSense app at [audiosense.vercel.app](https://audiosense.vercel.app).
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+- Node.js >= 14.0.0
+- npm >= 7.0.0
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## Setup
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Clone the repository: `git clone https://github.com/scisaif/audiosense_client.git`
+2. Navigate to the project directory: `cd audiosense_client`
+3. Install dependencies: `npm install`
+
+## Usage
+
+- Run the development server: `npm run dev`
+- Build the production version: `npm run build`
+- Preview the built version: `npm run preview`
+
+## Technologies Used
+
+- React.js: A JavaScript library for building user interfaces.
+- Vite: A fast development server and build tool.
+- Axios: A promise-based HTTP client for making API requests.
+- Tailwind CSS: A utility-first CSS framework for designing user interfaces.
+- TypeScript: A superset of JavaScript with static types.
+
+## DevDependencies
+
+For a complete list of devDependencies, check the `package.json` file in this repository.
+
+## Additional Information
+
+Provide any other relevant information about your project.
+
+## Server Repository
+
+For the backend server code that complements this client, check out the [Server Repo](https://github.com/scisaif/audiosense_backend).
+
+
+
