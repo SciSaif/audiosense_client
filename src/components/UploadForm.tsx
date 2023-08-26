@@ -36,6 +36,7 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
             const files: FileList = e.target.files;
             const filesWithMetadata: FileWithMetadata[] = [];
 
+            // get metadata for each file and store it in an array
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 const duration = await getDuration(file);
@@ -80,9 +81,10 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
                 JSON.stringify(fileWithMetadata.metaData)
             );
         });
+
         try {
             setLoading(true);
-            const res = await axios.post(
+            await axios.post(
                 `${import.meta.env.VITE_REACT_APP_API_URL}/upload`,
                 formData,
                 {
@@ -92,8 +94,8 @@ const UploadForm = ({ fetchAudioFiles }: Props) => {
                 }
             );
 
-            console.log(res.data.uploaded_urls);
-            console.log("Files uploaded successfully");
+            // console.log(res.data.uploaded_urls);
+            // console.log("Files uploaded successfully");
             fetchAudioFiles();
             setSelectedFiles(null);
             setLoading(false);

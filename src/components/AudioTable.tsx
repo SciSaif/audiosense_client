@@ -13,6 +13,7 @@ interface Props {
 const AudioTable = ({ audioFiles }: Props) => {
     const [currentAudio, setCurrentAudio] = useState<string | null>(null);
 
+    // play the audio file when the play button is clicked
     const playAudio = (audioUrl: string) => {
         if (currentAudio === audioUrl) {
             setCurrentAudio(null); // Stop playing if the same audio is clicked again
